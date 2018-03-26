@@ -95,9 +95,9 @@
 
 
         constructor(elem, options) {
-            this._el = elem && typeof(elem) === 'string' ? document.querySelector(elem) : elem;
+            this._el = elem && typeof elem === 'string' ? document.querySelector(elem) : elem;
 
-            if(!elem) {
+            if(!this._el) {
                 throw new Error('invalid Selector OR HTMLElement !');
             }
 
@@ -206,5 +206,4 @@
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
-    new Modal('.aa');
 })(window, document);
