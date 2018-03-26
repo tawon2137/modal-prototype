@@ -58,7 +58,7 @@
                 if(!modalInstance) {
                     return false;
                 }
-                const promises = modalInstance.getTypeCallStack(buttonType).map(callback => typeof callback === 'function' && new Promise((res, rej) => callback.call(this, e, res, rej)).filter(_ => _);
+                const promises = modalInstance.getTypeCallStack(buttonType).map(callback => typeof callback === 'function' && new Promise((res, rej) => callback.call(this, e, res, rej)) ).filter(_ => _);
                 Promise.all(promises)
                     .then(_ => Modal.lazyFrame(3))
                     .then(_ => {
