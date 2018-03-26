@@ -234,4 +234,5 @@
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
+    new Modal('.aa');
 })(window, document);
