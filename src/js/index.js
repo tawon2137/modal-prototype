@@ -64,6 +64,7 @@
                     .then(_ => {
                         const targetPostion = targetEl.getBoundingClientRect();
                         const position = modalInstance.getPosition(targetPostion);
+                        console.log(position);
                         typeof modalInstance[buttonType] === 'function' && modalInstance[buttonType](position);
                     })
                     .catch(err => {
@@ -71,6 +72,7 @@
                         Modal.lazyFrame(3).then(_ => {
                             const targetPostion = targetEl.getBoundingClientRect();
                             const position = modalInstance.getPosition(targetPostion);
+                            console.log(position);
                             typeof modalInstance[buttonType] === 'function' && modalInstance[buttonType](position);
                         });
                     });
@@ -127,12 +129,12 @@
         }
 
         open(position) {
-            const center = { x: (w.innerWidth / 2) - (this._el.offsetWidth / 2), y: (w.innerHeight / 2) - (this._el.offsetHeight / 2)};
             document.body.appendChild(this._dim);
             document.body.style.overflow = 'hidden';
             this._el.setAttribute('data-x', position.x);
             this._el.setAttribute('data-y', position.y);
             t.to(this._el, 0, { x: position.x, y: position.y, onComplete: _ => {
+                const center = { x: (w.innerWidth / 2) - (this._el.offsetWidth / 2), y: (w.innerHeight / 2) - (this._el.offsetHeight / 2)};
                 t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease });
                 t.to(this._dim, this.option.duration, { display: 'inline-block', opacity: 1, ease: this.option.ease });
             } });
@@ -160,7 +162,8 @@
             const styleObj = w.getComputedStyle(this._el);
             const width = this.getWidthToPixel(styleObj.width);
             const scale = this.getScale(styleObj.transform);
-            return { x: (targetPosition.x + targetPosition.width / 2) - (width / 2), y: targetPosition.y - (scale ? this._el.offsetHeight / 2 * (1 - scale.y) : 0) };
+
+            return { x: (targetPosition.left + targetPosition.width / 2) - (width / 2), y: targetPosition.top - (scale ? this._el.offsetHeight / 2 * (1 - scale.y) : 0) };
         }
 
         getWidthToPixel(styleString) {
@@ -175,13 +178,15 @@
                     break;
             }
         }
-        getTranslatePosition(transform, position) {
+     /*   getTranslatePosition(transform, position) {
             let type = '';
+
             switch(true) {
                 case transform.indexOf('matrix') >= 0:
                     type = 'matrix';
                     const matrixRegexp = /(?!([matrix\(]|[matrix3d\(])).*(?=\))/g;
                     const values = matrixRegexp.exec(transform)[0].replace(/\s/g, '').split(',');
+
                     if(values.length === 6) {
                         values[4] = position.x;
                         values[5] = position.y;
@@ -198,9 +203,10 @@
 
             }
         }
-
+*/
         getScale(transform) {
             let type = '';
+            console.log(transform);
             switch(true) {
                 case transform.indexOf('matrix') >= 0:
                     type = 'matrix';
@@ -233,5 +239,6 @@
     modal.addEventListener('open', function(e, res, rej) {
         "use strict";
        console.log(e, res, rej);
+       res();
     });
 })(window, document);
