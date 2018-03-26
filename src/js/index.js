@@ -147,6 +147,7 @@
                 this._el.visibility = 'hidden';
                 this._el.removeAttribute('data-x');
                 this._el.removeAttribute('data-y');
+                hClass(this._el, 'open') && rClass(this._el, 'open');
             } });
             hClass(this._dim, 'active') && rClass(this._dim, 'active');
             setTimeout(_ => {
