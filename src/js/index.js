@@ -151,7 +151,7 @@
         getPosition(targetPosition) {
             const styleObj = w.getComputedStyle(this._el);
             const width = this.getWidthToPixel(styleObj.width);
-            const position = { x: (targetPosition.x + targetPosition.width / 2) - (width / 2), y: (targetPosition.y + targetPosition.height / 2) };
+            const position = { x: (targetPosition.x + targetPosition.width / 2) - (width / 2), y: targetPosition.y };
             return position;
         }
         getWidthToPixel(styleString) {
