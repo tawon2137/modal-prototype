@@ -150,8 +150,7 @@
             const styleObj = w.getComputedStyle(this._el);
             const width = this.getWidthToPixel(styleObj.width);
             const scale = this.getScale(styleObj.transform);
-            const position = { x: (targetPosition.x + targetPosition.width / 2) - (width / 2), y: targetPosition.y - (scale ? this._el.offsetHeight / 2 * (1 - scale.y) : 0) };
-            return position;
+            return { x: (targetPosition.x + targetPosition.width / 2) - (width / 2), y: targetPosition.y - (scale ? this._el.offsetHeight / 2 * (1 - scale.y) : 0) };
         }
 
         getWidthToPixel(styleString) {
@@ -197,7 +196,7 @@
                     type = 'matrix';
                     const matrixRegexp = /(?!([matrix\(]|[matrix3d\(])).*(?=\))/g;
                     const values = matrixRegexp.exec(transform)[0].replace(/\s/g, '').split(',');
-                    return values.length === 6 ? { scaleX: parseFloat(values[0]), scaleY: parseFloat(values[3]) } : { x: parseFloat(values[0]), y: parseFloat(values[4]) };
+                    return values.length === 6 ? { x: parseFloat(values[0]), y: parseFloat(values[3]) } : { x: parseFloat(values[0]), y: parseFloat(values[4]) };
                     break;
                 case transform.indexOf('translate') >= 0:
 
@@ -220,4 +219,5 @@
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
+    new Modal('.aa');
 })(window, document);
