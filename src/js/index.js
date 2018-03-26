@@ -134,17 +134,17 @@
                 this._el.setAttribute('data-y', position.y);
                 t.to(this._el, 0, { x: position.x, y: position.y, onComplete: _ => {
                     const center = { x: (w.innerWidth / 2) - (this._el.offsetWidth / 2), y: (w.innerHeight / 2) - (this._el.offsetHeight / 2)};
-                    t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease });
+                    t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease, zIndex: 100 });
                     t.to(this._dim, this.option.duration, { display: 'inline-block', opacity: 1, ease: this.option.ease });
                 } });
             });
         }
 
         close() {
-            t.to(this._el, this.option.duration, { opacity: 0, scale: 0.7, x: this._el.getAttribute('data-x'),y: this._el.getAttribute('data-y'), ease: this.option.ease });
+            t.to(this._el, this.option.duration, { opacity: 0, scale: 0.7, x: this._el.getAttribute('data-x'),y: this._el.getAttribute('data-y'), zIndex: -1, ease: this.option.ease });
             t.to(this._dim, this.option.duration, { display: 'none', opacity: 0, ease: this.option.ease, onComplete: _ => {
                 document.body.style.overflow = '';
-                this._el.style.transform = '';
+                this._el.style.transform = 'translate(-100%,-100%);';
                 this._el.visibility = 'hidden';
                 this._el.removeAttribute('data-x');
                 this._el.removeAttribute('data-y');
@@ -234,5 +234,4 @@
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
-    new Modal('.aa');
 })(window, document);
