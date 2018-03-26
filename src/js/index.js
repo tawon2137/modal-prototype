@@ -96,7 +96,7 @@
 
         constructor(elem, options) {
             this._el = elem && typeof elem === 'string' ? document.querySelector(elem) : elem;
-
+            console.log(this._el, elem);
             if(!this._el) {
                 throw new Error('invalid Selector OR HTMLElement !');
             }
