@@ -96,7 +96,6 @@
 
         constructor(elem, options) {
             this._el = elem && typeof elem === 'string' ? document.querySelector(elem) : elem;
-            console.log(this._el, elem);
             if(!this._el) {
                 throw new Error('invalid Selector OR HTMLElement !');
             }
@@ -108,7 +107,6 @@
             }
 
             this.option = Object.assign({}, optionModel, options);
-            this.disAttrName = '';
             this._dim = document.createElement('div');
             this._dim.setAttribute('data-modal-trigger', this.id);
             this._dim.setAttribute('data-type', 'close');
@@ -151,9 +149,11 @@
         getPosition(targetPosition) {
             const styleObj = w.getComputedStyle(this._el);
             const width = this.getWidthToPixel(styleObj.width);
-            const position = { x: (targetPosition.x + targetPosition.width / 2) - (width / 2), y: targetPosition.y };
+            const scale = this.getScale(styleObj.transform);
+            const position = { x: (targetPosition.x + targetPosition.width / 2) - (width / 2), y: targetPosition.y - (scale ? this._el.offsetHeight * (1 - scale.y) : 0) };
             return position;
         }
+
         getWidthToPixel(styleString) {
             const widthValue = parseInt(/(\-?)(\.?\d+)/g.exec(styleString)[0]);
             const unit = styleString.replace(/(\-?)(\.?\d+)/g, '').replace(/\s+/g, '');
@@ -166,7 +166,7 @@
                     break;
             }
         }
-/*        getTranslatePosition(transform, position) {
+        getTranslatePosition(transform, position) {
             let type = '';
             switch(true) {
                 case transform.indexOf('matrix') >= 0:
@@ -182,14 +182,28 @@
                         values[6] = position.x;
                         values[7] = position.y;
                     }
-
                     matrixRegexp.lastIndex = 0;
                     return  transform.indexOf('matrix3d') >= 0 ? `translate(${values[6]},${values[7]}) transmatrix3d(${values.join(',')})` : `matrix(${values.join(',')})`;
                     break;
                 case transform.indexOf('translate') >= 0:
 
             }
-        }*/
+        }
+
+        getScale(transform) {
+            let type = '';
+            switch(true) {
+                case transform.indexOf('matrix') >= 0:
+                    type = 'matrix';
+                    const matrixRegexp = /(?!([matrix\(]|[matrix3d\(])).*(?=\))/g;
+                    const values = matrixRegexp.exec(transform)[0].replace(/\s/g, '').split(',');
+                    return values.length === 6 ? { scaleX: parseFloat(values[0]), scaleY: parseFloat(values[3]) } : { x: parseFloat(values[0]), y: parseFloat(values[4]) };
+                    break;
+                case transform.indexOf('translate') >= 0:
+
+            }
+        }
+
 
         addEventListener(type = 'open', callback) {
             this.getTypeCallStack(type).push(callback);
@@ -206,4 +220,5 @@
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
+    new Modal('.aa');
 })(window, document);
