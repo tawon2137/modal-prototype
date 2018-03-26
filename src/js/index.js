@@ -148,7 +148,7 @@
                     this._el.removeAttribute('data-x');
                     this._el.removeAttribute('data-y');
                     this._dim.parentElement && this._dim.parentElement.removeChild(this._dim);
-                    hClass(this._el, 'open') && aClass(this._el, 'open');
+                    hClass(this._el, 'open') && rClass(this._el, 'open');
                 }
             });
         }
