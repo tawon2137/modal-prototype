@@ -58,7 +58,7 @@
                 if(!modalInstance) {
                     return false;
                 }
-                const promises = modalInstance.getTypeCallStack(buttonType).map(callback => typeof callback === 'function' && new Promise((res, rej) => callback.call(this, e, res, rej)) ).filter(_ => _);
+                const promises = modalInstance.getTypeCallStack(buttonType).map(callback => typeof callback === 'function' && new Promise((res, rej) => callback.apply(this, [e, res, rej])) ).filter(_ => _);
                 Promise.all(promises)
                     .then(_ => Modal.lazyFrame(3))
                     .then(_ => {
@@ -229,4 +229,9 @@
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
+    const modal = new Modal('.aa');
+    modal.addEventListener('open', function(e, res, rej) {
+        "use strict";
+       console.log(e, res, rej);
+    });
 })(window, document);
