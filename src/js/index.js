@@ -39,7 +39,7 @@
     const t = TweenLite;
     const _staticModals = {};
     const optionModel = {
-        duration: 0.50,
+        duration: 0.5,
         ease: Power3.easeOut
     };
 
@@ -119,6 +119,7 @@
             this._dim = document.createElement('div');
             this._dim.setAttribute('data-modal-trigger', this.id);
             this._dim.setAttribute('data-type', 'close');
+            this._dim.style.transition = `opacity ${this.option.duration * 1000}ms ease-out`;
             this.openCallStack = [];
             this.closeCallStack = [];
             aClass(this._dim, 'modal-background');
@@ -127,30 +128,34 @@
 
         open(position) {
             raf(_ => {
-                document.body.appendChild(this._dim);
                 document.body.style.overflow = 'hidden';
-                this._el.setAttribute('data-x', position.x);
-                this._el.setAttribute('data-y', position.y);
+                document.body.appendChild(this._dim);
                 t.to(this._el, 0, { x: position.x, y: position.y, onComplete: _ => {
+                    this._el.setAttribute('data-x', position.x);
+                    this._el.setAttribute('data-y', position.y);
                     const center = { x: (w.innerWidth / 2) - (this._el.offsetWidth / 2), y: (w.innerHeight / 2) - (this._el.offsetHeight / 2)};
                     t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease, zIndex: 400, onComplete: _ => aClass(this._el, 'open') });
-                    t.to(this._dim, this.option.duration, { display: 'inline-block', opacity: 1, ease: this.option.ease });
+                    Modal.lazyFrame(3).then(_ => aClass(this._dim, 'active'));
                 } });
             });
         }
 
         close() {
-            t.to(this._el, this.option.duration, { opacity: 0, scale: 0.7, x: this._el.getAttribute('data-x'),y: this._el.getAttribute('data-y'), zIndex: -1, ease: this.option.ease });
-            t.to(this._dim, this.option.duration, { display: 'none', opacity: 0, ease: this.option.ease, onComplete: _ => {
-                    document.body.style.overflow = '';
-                    this._el.style.transform = 'translate(-100%,-100%);';
-                    this._el.visibility = 'hidden';
-                    this._el.removeAttribute('data-x');
-                    this._el.removeAttribute('data-y');
+            t.to(this._el, this.option.duration, { opacity: 0, scale: 0.7, x: this._el.getAttribute('data-x'),y: this._el.getAttribute('data-y'), zIndex: -1, ease: this.option.ease, onComplete: _ => {
+                document.body.style.overflow = '';
+                this._el.style.transform = 'translate(-100%,-100%);';
+                this._el.visibility = 'hidden';
+                this._el.removeAttribute('data-x');
+                this._el.removeAttribute('data-y');
+            } });
+            hClass(this._dim, 'active') && rClass(this._dim, 'active');
+            setTimeout(_ => {
+                try {
                     this._dim.parentElement && this._dim.parentElement.removeChild(this._dim);
-                    hClass(this._el, 'open') && rClass(this._el, 'open');
+                }catch(e) {
+                    return false;
                 }
-            });
+            }, this.option._duration * 1000);
         }
 
 
