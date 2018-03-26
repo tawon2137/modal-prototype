@@ -1,0 +1,26 @@
+.aa {
+  background: #000;
+  width: 500px;
+  height: 100px;
+  will-change: transform, opacity;
+  transform: scale(0.7) translate(-100%, -100%);
+  left: 0;
+  top: 0;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  z-index: 200;
+}
+
+
+.modal-background {
+  display: none;
+  position:fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0, 0.75);
+  opacity: 0;
+  left:0;
+  top:0;
+  z-index: 199;
+}
