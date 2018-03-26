@@ -58,12 +58,22 @@
                 if(!modalInstance) {
                     return false;
                 }
-                modalInstance.getTypeCallStack(buttonType).forEach(callback => typeof callback === 'function' && callback.call(this, e));
-                Modal.lazyFrame(3).then(_ => {
-                    const targetPostion = targetEl.getBoundingClientRect();
-                    const position = modalInstance.getPosition(targetPostion);
-                    typeof _staticModals[modalTarget][buttonType] === 'function' && _staticModals[modalTarget][buttonType](position);
-                });
+                const promises = modalInstance.getTypeCallStack(buttonType).map(callback => typeof callback === 'function' && new Promise((res, rej) => callback.call(this, e, res, rej)).filter(_ => _);
+                Promise.all(promises)
+                    .then(_ => Modal.lazyFrame(3))
+                    .then(_ => {
+                        const targetPostion = targetEl.getBoundingClientRect();
+                        const position = modalInstance.getPosition(targetPostion);
+                        typeof modalInstance[buttonType] === 'function' && modalInstance[buttonType](position);
+                    })
+                    .catch(err => {
+                        modalInstance._el.innerHTML = `<h1 class="err-message">요청 처리도중 오류가 발생했습니다. 잠시후에 다시시도해주세요. (${err.message})</h1>`;
+                        Modal.lazyFrame(3).then(_ => {
+                            const targetPostion = targetEl.getBoundingClientRect();
+                            const position = modalInstance.getPosition(targetPostion);
+                            typeof modalInstance[buttonType] === 'function' && modalInstance[buttonType](position);
+                        });
+                    });
             }
         }
 
