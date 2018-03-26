@@ -155,9 +155,8 @@
                 }catch(e) {
                     return false;
                 }
-            }, this.option._duration * 1000);
+            }, this.option.duration * 1000);
         }
-
 
         getId() {
             return this.getId;
