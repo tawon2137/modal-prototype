@@ -64,7 +64,6 @@
                     .then(_ => {
                         const targetPostion = targetEl.getBoundingClientRect();
                         const position = modalInstance.getPosition(targetPostion);
-                        console.log(position);
                         typeof modalInstance[buttonType] === 'function' && modalInstance[buttonType](position);
                     })
                     .catch(err => {
@@ -72,7 +71,6 @@
                         Modal.lazyFrame(3).then(_ => {
                             const targetPostion = targetEl.getBoundingClientRect();
                             const position = modalInstance.getPosition(targetPostion);
-                            console.log(position);
                             typeof modalInstance[buttonType] === 'function' && modalInstance[buttonType](position);
                         });
                     });
@@ -129,26 +127,28 @@
         }
 
         open(position) {
-            document.body.appendChild(this._dim);
-            document.body.style.overflow = 'hidden';
-            this._el.setAttribute('data-x', position.x);
-            this._el.setAttribute('data-y', position.y);
-            t.to(this._el, 0, { x: position.x, y: position.y, onComplete: _ => {
-                const center = { x: (w.innerWidth / 2) - (this._el.offsetWidth / 2), y: (w.innerHeight / 2) - (this._el.offsetHeight / 2)};
-                t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease });
-                t.to(this._dim, this.option.duration, { display: 'inline-block', opacity: 1, ease: this.option.ease });
-            } });
+            raf(_ => {
+                document.body.appendChild(this._dim);
+                document.body.style.overflow = 'hidden';
+                this._el.setAttribute('data-x', position.x);
+                this._el.setAttribute('data-y', position.y);
+                t.to(this._el, 0, { x: position.x, y: position.y, onComplete: _ => {
+                    const center = { x: (w.innerWidth / 2) - (this._el.offsetWidth / 2), y: (w.innerHeight / 2) - (this._el.offsetHeight / 2)};
+                    t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease });
+                    t.to(this._dim, this.option.duration, { display: 'inline-block', opacity: 1, ease: this.option.ease });
+                } });
+            });
         }
 
         close() {
             t.to(this._el, this.option.duration, { opacity: 0, scale: 0.7, x: this._el.getAttribute('data-x'),y: this._el.getAttribute('data-y'), ease: this.option.ease });
             t.to(this._dim, this.option.duration, { display: 'none', opacity: 0, ease: this.option.ease, onComplete: _ => {
                 document.body.style.overflow = '';
-                this._dim.parentElement && this._dim.parentElement.removeChild(this._dim);
                 this._el.style.transform = '';
                 this._el.visibility = 'hidden';
                 this._el.removeAttribute('data-x');
                 this._el.removeAttribute('data-y');
+                this._dim.parentElement && this._dim.parentElement.removeChild(this._dim);
             }
             });
         }
@@ -206,7 +206,6 @@
 */
         getScale(transform) {
             let type = '';
-            console.log(transform);
             switch(true) {
                 case transform.indexOf('matrix') >= 0:
                     type = 'matrix';
@@ -235,10 +234,4 @@
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
-    const modal = new Modal('.aa');
-    modal.addEventListener('open', function(e, res, rej) {
-        "use strict";
-       console.log(e, res, rej);
-       res();
-    });
 })(window, document);
