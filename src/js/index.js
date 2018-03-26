@@ -134,7 +134,7 @@
                 this._el.setAttribute('data-y', position.y);
                 t.to(this._el, 0, { x: position.x, y: position.y, onComplete: _ => {
                     const center = { x: (w.innerWidth / 2) - (this._el.offsetWidth / 2), y: (w.innerHeight / 2) - (this._el.offsetHeight / 2)};
-                    t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease, zIndex: 100 });
+                    t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease, zIndex: 400 });
                     t.to(this._dim, this.option.duration, { display: 'inline-block', opacity: 1, ease: this.option.ease });
                 } });
             });
