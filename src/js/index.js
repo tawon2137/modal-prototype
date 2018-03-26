@@ -150,7 +150,7 @@
             const styleObj = w.getComputedStyle(this._el);
             const width = this.getWidthToPixel(styleObj.width);
             const scale = this.getScale(styleObj.transform);
-            const position = { x: (targetPosition.x + targetPosition.width / 2) - (width / 2), y: targetPosition.y - (scale ? this._el.offsetHeight * (1 - scale.y) : 0) };
+            const position = { x: (targetPosition.x + targetPosition.width / 2) - (width / 2), y: targetPosition.y - (scale ? this._el.offsetHeight / 2 * (1 - scale.y) : 0) };
             return position;
         }
 
@@ -220,5 +220,4 @@
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
-    new Modal('.aa');
 })(window, document);
