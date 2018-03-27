@@ -220,8 +220,10 @@
                     const values = matrixRegexp.exec(transform)[0].replace(/\s/g, '').split(',');
                     return values.length === 6 ? { x: parseFloat(values[0]), y: parseFloat(values[3]) } : { x: parseFloat(values[0]), y: parseFloat(values[4]) };
                     break;
-                case transform.indexOf('translate') >= 0:
-
+                case transform.indexOf('scale') >= 0:
+                    const scaleRegexp = /(?![scale\(]).*(?=\))/g;
+                    const scaleValues = scaleRegexp.exec(transform)[0].replace(/\s/g, '').split(',');
+                    return { x: parseFloat(scaleValues[0]), y: parseFloat(scaleValues[1]) };
             }
         }
 
