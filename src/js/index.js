@@ -138,7 +138,7 @@
                     this._el.setAttribute('data-y', position.y);
                     const center = { x: (w.innerWidth / 2) - (this._el.offsetWidth / 2), y: (w.innerHeight / 2) - (this._el.offsetHeight / 2)};
                     t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease, zIndex: 400, onComplete: _ => aClass(this._el, 'open') });
-                    Modal.lazyFrame(3).then(_ => aClass(this._dim, 'active'));
+                    Modal.lazyFrame(1).then(_ => aClass(this._dim, 'active'));
                 } });
             });
         }
@@ -236,9 +236,7 @@
            type === 'open' ? this.openCallStack = callStack : this.closeCallStack = callStack;
         }
     }
-
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
-    new Modal('.aa');
 })(window, document);
