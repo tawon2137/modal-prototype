@@ -2,7 +2,6 @@
   background: #000;
   width: 500px;
   height: 100px;
-  will-change: transform, opacity;
   transform: scale(0.7) translate(-100%, -100%);
   left: 0;
   top: 0;
@@ -14,7 +13,6 @@
 
 
 .modal-background {
-  display: none;
   position:fixed;
   width: 100%;
   height: 100%;
@@ -23,4 +21,9 @@
   left:0;
   top:0;
   z-index: 199;
+}
+
+
+.modal-background.active {
+  opacity: 1;
 }

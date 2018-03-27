@@ -129,6 +129,7 @@
         open(position) {
             raf(_ => {
                 document.body.style.overflow = 'hidden';
+                document.querySelector('html').style.overflow = 'hidden';
                 document.body.appendChild(this._dim);
                 t.to(this._el, 0, { x: position.x, y: position.y, onComplete: _ => {
                     this._el.setAttribute('data-x', position.x);
@@ -143,6 +144,7 @@
         close() {
             t.to(this._el, this.option.duration, { opacity: 0, scale: 0.7, x: this._el.getAttribute('data-x'),y: this._el.getAttribute('data-y'), zIndex: -1, ease: this.option.ease, onComplete: _ => {
                 document.body.style.overflow = '';
+                document.querySelector('html').style.overflow = '';
                 this._el.style.transform = 'translate(-100%,-100%);';
                 this._el.visibility = 'hidden';
                 this._el.removeAttribute('data-x');
@@ -223,7 +225,6 @@
             }
         }
 
-
         addEventListener(type = 'open', callback) {
             this.getTypeCallStack(type).push(callback);
         }
@@ -239,4 +240,5 @@
     w.addEventListener('click', Modal.triggerModal);
     w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
+    new Modal('.aa');
 })(window, document);
