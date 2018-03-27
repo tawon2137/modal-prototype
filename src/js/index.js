@@ -119,6 +119,9 @@
             this._dim = document.createElement('div');
             this._dim.setAttribute('data-modal-trigger', this.id);
             this._dim.setAttribute('data-type', 'close');
+            if(this._dim.style.hasOwnProperty('-ms-transform')) {
+                this._dim.style['-ms-transform'] = `opacity ${this.option.duration * 1000}ms ease-out`;
+            }
             this._dim.style.transition = `opacity ${this.option.duration * 1000}ms ease-out`;
             this.openCallStack = [];
             this.closeCallStack = [];
@@ -129,7 +132,6 @@
         open(position) {
             raf(_ => {
                 document.body.style.overflow = 'hidden';
-                document.querySelector('html').style.overflow = 'hidden';
                 document.body.appendChild(this._dim);
                 t.to(this._el, 0, { x: position.x, y: position.y, onComplete: _ => {
                     this._el.setAttribute('data-x', position.x);
@@ -144,8 +146,6 @@
         close() {
             t.to(this._el, this.option.duration, { opacity: 0, scale: 0.7, x: this._el.getAttribute('data-x'),y: this._el.getAttribute('data-y'), zIndex: -1, ease: this.option.ease, onComplete: _ => {
                 document.body.style.overflow = '';
-                document.querySelector('html').style.overflow = '';
-                this._el.style.transform = 'translate(-100%,-100%);';
                 this._el.visibility = 'hidden';
                 this._el.removeAttribute('data-x');
                 this._el.removeAttribute('data-y');
