@@ -133,22 +133,17 @@
             raf(_ => {
                 document.body.style.overflow = 'hidden';
                 document.body.appendChild(this._dim);
-                t.to(this._el, 0, { x: position.x, y: position.y, onComplete: _ => {
-                    this._el.setAttribute('data-x', position.x);
-                    this._el.setAttribute('data-y', position.y);
-                    const center = { x: (w.innerWidth / 2) - (this._el.offsetWidth / 2), y: (w.innerHeight / 2) - (this._el.offsetHeight / 2)};
-                    t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: center.x, y: center.y, ease: this.option.ease, zIndex: 400, onComplete: _ => aClass(this._el, 'open') });
+                t.to(this._el, 0, { x: '-50%', y: '-50%', onComplete: _ => {
+                    t.to(this._el, this.option.duration, { visibility: 'visible', opacity: 1, scale: 1, x: '-50%', y: '-50%', ease: this.option.ease, zIndex: 400, onComplete: _ => aClass(this._el, 'open') });
                     Modal.lazyFrame(1).then(_ => aClass(this._dim, 'active'));
                 } });
             });
         }
 
         close() {
-            t.to(this._el, this.option.duration, { opacity: 0, scale: 0.7, x: this._el.getAttribute('data-x'),y: this._el.getAttribute('data-y'), zIndex: -1, ease: this.option.ease, onComplete: _ => {
+            t.to(this._el, this.option.duration, { opacity: 0, scale: 0.7, x: '-50%',y: '-50%', zIndex: -1, ease: this.option.ease, onComplete: _ => {
                 document.body.style.overflow = '';
                 this._el.visibility = 'hidden';
-                this._el.removeAttribute('data-x');
-                this._el.removeAttribute('data-y');
                 hClass(this._el, 'open') && rClass(this._el, 'open');
             } });
             hClass(this._dim, 'active') && rClass(this._dim, 'active');
@@ -185,32 +180,7 @@
                     break;
             }
         }
-     /*   getTranslatePosition(transform, position) {
-            let type = '';
 
-            switch(true) {
-                case transform.indexOf('matrix') >= 0:
-                    type = 'matrix';
-                    const matrixRegexp = /(?!([matrix\(]|[matrix3d\(])).*(?=\))/g;
-                    const values = matrixRegexp.exec(transform)[0].replace(/\s/g, '').split(',');
-
-                    if(values.length === 6) {
-                        values[4] = position.x;
-                        values[5] = position.y;
-                    }
-
-                    if(values.length === 8) {
-                        values[6] = position.x;
-                        values[7] = position.y;
-                    }
-                    matrixRegexp.lastIndex = 0;
-                    return  transform.indexOf('matrix3d') >= 0 ? `translate(${values[6]},${values[7]}) transmatrix3d(${values.join(',')})` : `matrix(${values.join(',')})`;
-                    break;
-                case transform.indexOf('translate') >= 0:
-
-            }
-        }
-*/
         getScale(transform = 'matrix(0.7, 0, 0, 0.7, 0, 0)') {
             let type = '';
             switch(true) {
@@ -238,7 +208,7 @@
            type === 'open' ? this.openCallStack = callStack : this.closeCallStack = callStack;
         }
     }
-    w.addEventListener('click', Modal.triggerModal);
-    w.lalaheydey = w.lalaheydey || {};
+    w.addEventListener('click', Modal.triggerModal)
+    w.lalaheydey = w.lalaheydey || {}
     w.lalaheydey.Modal = Modal;
 })(window, document);

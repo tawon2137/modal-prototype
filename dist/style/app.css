@@ -1,1 +1,1 @@
-.aa{background:#000;width:500px;height:100px;transform:scale(.7) translate(-100%,-100%);visibility:hidden;z-index:200}.aa,.modal-background{left:0;top:0;opacity:0;position:fixed}.modal-background{width:100%;height:100%;background:rgba(0,0,0,.75);z-index:199}.modal-background.active{opacity:1}
+.aa{background:#000;width:500px;height:100px;transform:scale(.7);left:50%;top:50%;visibility:hidden;z-index:200}.aa,.modal-background{opacity:0;position:fixed}.modal-background{width:100%;height:100%;background:rgba(0,0,0,.75);left:0;top:0;z-index:199}.modal-background.active{opacity:1}
