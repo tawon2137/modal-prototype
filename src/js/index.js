@@ -168,7 +168,7 @@
         getPosition(targetPosition) {
             const styleObj = w.getComputedStyle(this._el);
             const width = this.getWidthToPixel(styleObj.width);
-            const scale = this.getScale(styleObj.transform);
+            const scale = this.getScale(styleObj['-ms-transform'] ? styleObj['-ms-transform'] : styleObj.transform);
 
             return { x: (targetPosition.left + targetPosition.width / 2) - (width / 2), y: targetPosition.top - (scale ? this._el.offsetHeight / 2 * (1 - scale.y) : 0) };
         }
