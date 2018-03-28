@@ -211,7 +211,7 @@
             }
         }
 */
-        getScale(transform) {
+        getScale(transform = 'matrix(0.7, 0, 0, 0.7, 0, 0)') {
             let type = '';
             switch(true) {
                 case transform.indexOf('matrix') >= 0:
