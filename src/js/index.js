@@ -208,7 +208,7 @@
            type === 'open' ? this.openCallStack = callStack : this.closeCallStack = callStack;
         }
     }
-    w.addEventListener('click', Modal.triggerModal)
-    w.lalaheydey = w.lalaheydey || {}
+    w.addEventListener('click', Modal.triggerModal);
+    w.lalaheydey = w.lalaheydey || {};
     w.lalaheydey.Modal = Modal;
 })(window, document);
